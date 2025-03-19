@@ -1,0 +1,26 @@
+[ENABLE]
+alloc(newmem,2048,"GameAssembly.dll"+69EE5D)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+  add ecx,1   // Adds 1 before the subtraction, canceling out the effect
+
+originalcode:
+sub ecx,01
+mov eax,r14d
+
+exit:
+jmp returnhere
+
+"GameAssembly.dll"+69EE5D:
+jmp newmem
+nop
+returnhere:
+[DISABLE]
+dealloc(newmem)
+
+"GameAssembly.dll"+69EE5D:
+  db 83 E9 01 41 8B C6 // Restore original bytes (SUB ECX,01 + MOV EAX,R14D)
